@@ -6,10 +6,12 @@ import axios from 'axios';
 export default function TelaEntrar() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
     function fazerLogin(event) {
         event.preventDefault();
         console.log("fez login");
+        navigate("/inicio");
     }
 
     return (

@@ -6,10 +6,12 @@ import axios from 'axios';
 export default function Saida() {
     const [value, setValue] = useState('');
     const [description, setDescription] = useState('');
+    const navigate = useNavigate();
 
     function salvarSaida(event) {
         event.preventDefault();
         console.log("salvou saida");
+        navigate("/inicio");
     }
 
     return (

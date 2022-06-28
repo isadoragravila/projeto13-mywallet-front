@@ -6,10 +6,12 @@ import axios from 'axios';
 export default function Entrada() {
     const [value, setValue] = useState('');
     const [description, setDescription] = useState('');
+    const navigate = useNavigate();
 
     function salvarEntrada(event) {
         event.preventDefault();
         console.log("salvou entrada");
+        navigate("/inicio");
     }
 
     return (

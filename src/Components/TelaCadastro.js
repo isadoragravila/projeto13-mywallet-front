@@ -8,10 +8,12 @@ export default function TelaCadastro() {
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
     const [checkPassword, setCheckPassword] = useState('');
+    const navigate = useNavigate();
 
     function fazerCadastro(event) {
         event.preventDefault();
         console.log("fez cadastro");
+        navigate("/");
     }
 
     return (
