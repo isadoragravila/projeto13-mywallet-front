@@ -36,7 +36,8 @@ export default function TelaCadastro() {
 const Conteiner = styled.div`
     max-width: 500px;
     min-width: 375px;
-    height: 100vh;
+    min-height: 100vh;
+    padding: 25px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -63,6 +64,7 @@ const Entrar = styled.div`
 `;
 
 const Form = styled.form`
+    width: 100%;
     display: flex;
     flex-direction: column;
     margin-top: 24px;
@@ -70,7 +72,7 @@ const Form = styled.form`
 `;
 
 const Input = styled.input`
-    width: 326px;
+    width: 100%;
     height: 58px;
     border-radius: 5px;
     margin-bottom: 13px;
@@ -89,7 +91,7 @@ const Input = styled.input`
 `;
 
 const Button = styled.button`
-    width: 326px;
+    width: 100%;
     height: 46px;
     background-color: #A328D6;
     border-radius: 5px;
