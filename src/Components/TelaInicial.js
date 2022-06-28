@@ -2,8 +2,11 @@ import styled from 'styled-components';
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from 'react';
 import axios from 'axios';
+import Registros from './Registros';
 
 export default function TelaInicial() {
+    const [teste, setTeste] = useState(false); //mudar depois com o get
+
     return (
         <Conteiner>
             <Top>
@@ -13,7 +16,11 @@ export default function TelaInicial() {
                 </Link>
             </Top>
             <Registers>
-                <h3>Não há registros de entrada ou saída</h3>
+                {teste ?
+                    <Registros />
+                    :
+                    <Text><h3>Não há registros de entrada ou saída</h3></Text>
+                }
             </Registers>
             <Buttons>
                 <Link to="/entrada">
@@ -68,13 +75,17 @@ const Top = styled.div`
 
 const Registers = styled.div`
     display: flex;
-    justify-content: center;
-    align-items: center;
     background-color: #FFFFFF;
     border-radius: 5px;
     min-height: 400px;
     width: 100%;
     margin-bottom: 13px;
+`;
+const Text = styled.div`
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     h3 {
         font-family: 'Raleway', sans-serif;
         font-weight: 400;
@@ -83,10 +94,6 @@ const Registers = styled.div`
         text-align: center;
         color: #868686;
         width: 200px;
-    }
-    ion-icon {
-        font-size: 30px;
-        color: #FFFFFF;
     }
 `;
 
