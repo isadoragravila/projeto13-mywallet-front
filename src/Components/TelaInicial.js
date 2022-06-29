@@ -12,6 +12,9 @@ export default function TelaInicial() {
     const [registers, setRegisters] = useState([]);
 
     useEffect(() => {
+        if (!token) {
+            navigate("/");
+        } else {
             const config = {
                 headers: {
                     "Authorization": `Bearer ${token}`
@@ -25,6 +28,7 @@ export default function TelaInicial() {
             promise.catch(err => {
                 alert(err.response.data);
             });
+        }
     }, []);
 
     return (
