@@ -1,22 +1,42 @@
 import styled from 'styled-components';
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import Registros from './Registros';
+import TokenContext from "../Contexts/TokenContext";
 
 export default function TelaInicial() {
-    const [teste, setTeste] = useState(false); //mudar depois com o get
+    const navigate = useNavigate();
+    const { token } = useContext(TokenContext);
+    const [name, setName] = useState('');
+    const [registers, setRegisters] = useState([]);
+
+    useEffect(() => {
+            const config = {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            };
+            const promise = axios.get("http://localhost:5000/registers", config);
+            promise.then(response => {
+                setName(response.data.name);
+                setRegisters(response.data.registers);
+            });
+            promise.catch(err => {
+                alert(err.response.data);
+            });
+    }, []);
 
     return (
         <Conteiner>
             <Top>
-                <h2>Olá, Fulano</h2>
+                <h2>Olá, {name}</h2>
                 <Link to="/">
                     <ion-icon name="exit-outline"></ion-icon>
                 </Link>
             </Top>
             <Registers>
-                {teste ?
+                {registers.length > 0 ?
                     <Registros />
                     :
                     <Text><h3>Não há registros de entrada ou saída</h3></Text>
