@@ -12,18 +12,30 @@ export default function TelaCadastro() {
 
     function fazerCadastro(event) {
         event.preventDefault();
-        console.log("fez cadastro");
-        navigate("/");
-    }
+        //verificação do campo confirmar senha
+        if (password !== checkPassword) {
+            alert("Senhas diferentes. Insira a senha novamente");
+            return;
+        }
 
+        const body = { name, email, password };
+        const promise = axios.post("http://localhost:5000/signup", body);
+        promise.then(() => {
+            navigate("/");
+        });
+        promise.catch(err => {
+            alert(err.response.data);
+        });
+    }
+    //recolocar required nos inputs depois
     return (
         <Conteiner>
             <h1>My Wallet</h1>
             <Form onSubmit={fazerCadastro}>
-                <Input type="text" required placeholder="Nome" value={name} onChange={(e) => setName(e.target.value)} />
-                <Input type="email" required placeholder="E-mail" value={email} onChange={(e) => setEmail(e.target.value)} />
-                <Input type="password" required placeholder="Senha" value={password} onChange={(e) => setPassword(e.target.value)} />
-                <Input type="password" required placeholder="Confirme a senha" value={checkPassword} onChange={(e) => setCheckPassword(e.target.value)} />
+                <Input type="text" placeholder="Nome" value={name} onChange={(e) => setName(e.target.value)} />
+                <Input type="email" placeholder="E-mail" value={email} onChange={(e) => setEmail(e.target.value)} />
+                <Input type="password" placeholder="Senha" value={password} onChange={(e) => setPassword(e.target.value)} />
+                <Input type="password" placeholder="Confirme a senha" value={checkPassword} onChange={(e) => setCheckPassword(e.target.value)} />
                 <Button type="submit">Cadastrar</Button>
             </Form>
             <Link to="/">
