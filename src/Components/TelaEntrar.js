@@ -1,25 +1,35 @@
 import styled from 'styled-components';
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import axios from 'axios';
+import TokenContext from "../Contexts/TokenContext";
 
 export default function TelaEntrar() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
+    const { setToken } = useContext(TokenContext);
 
     function fazerLogin(event) {
         event.preventDefault();
-        console.log("fez login");
-        navigate("/inicio");
-    }
 
+        const body = { email, password };
+        const promise = axios.post("http://localhost:5000/signin", body);
+        promise.then(response => {
+            setToken(response.data.token);
+            navigate("/inicio");
+        });
+        promise.catch(err => {
+            alert(err.response.data);
+        });
+    }
+    //recolocar required nos inputs depois
     return (
         <Conteiner>
             <h1>My Wallet</h1>
             <Form onSubmit={fazerLogin}>
-                <Input type="email" required placeholder="E-mail" value={email} onChange={(e) => setEmail(e.target.value)} />
-                <Input type="password" required placeholder="Senha" value={password} onChange={(e) => setPassword(e.target.value)} />
+                <Input type="email" placeholder="E-mail" value={email} onChange={(e) => setEmail(e.target.value)} />
+                <Input type="password" placeholder="Senha" value={password} onChange={(e) => setPassword(e.target.value)} />
                 <Button type="submit">Entrar</Button>
             </Form>
             <Link to="/cadastro">

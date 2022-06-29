@@ -5,11 +5,15 @@ import TelaCadastro from "./TelaCadastro";
 import TelaInicial from "./TelaInicial";
 import Entrada from "./Entrada";
 import Saida from "./Saida";
+import { useState } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import TokenContext from "../Contexts/TokenContext";
 
 export default function App() {
+    const [token, setToken] = useState('');
+
     return (
-        <div>
+        <TokenContext.Provider value={{ token, setToken }}>
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<TelaEntrar />} />
@@ -19,6 +23,6 @@ export default function App() {
                     <Route path="/saida" element={<Saida />} />
                 </Routes>
             </BrowserRouter>
-        </div>
+        </TokenContext.Provider>
     );
 }
