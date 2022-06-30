@@ -1,17 +1,35 @@
 import styled from 'styled-components';
 import { useNavigate } from "react-router-dom";
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import axios from 'axios';
+import TokenContext from "../Contexts/TokenContext";
 
 export default function Saida() {
     const [value, setValue] = useState('');
     const [description, setDescription] = useState('');
     const navigate = useNavigate();
+    const { token } = useContext(TokenContext);
 
     function salvarSaida(event) {
         event.preventDefault();
-        console.log("salvou saida");
-        navigate("/inicio");
+
+        if (!token) {
+            navigate("/");
+        } else {
+            const body = { type: "outflow", description, value };
+            const config = {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            };
+            const promise = axios.post("http://localhost:5000/registers", body, config);
+            promise.then(() => {
+                navigate("/inicio");
+            });
+            promise.catch(err => {
+                alert(err.response.data);
+            });
+        }
     }
 
     return (
