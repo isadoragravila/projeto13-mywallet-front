@@ -41,7 +41,7 @@ export default function TelaInicial() {
             </Top>
             <Registers>
                 {registers.length > 0 ?
-                    <Registros />
+                    <Registros registers={registers} />
                     :
                     <Text><h3>Não há registros de entrada ou saída</h3></Text>
                 }

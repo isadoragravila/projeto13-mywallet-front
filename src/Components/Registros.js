@@ -1,48 +1,34 @@
 import styled from 'styled-components';
-import { Link, useNavigate } from "react-router-dom";
-import { useState } from 'react';
-import axios from 'axios';
 
-function RegistroUnico({ data, descricao, valor }) {
+function RegistroUnico({ data, descricao, valor, tipo }) {
     return (
         <Registro>
             <div>
                 <Data>{data}</Data>
                 <Descricao>{descricao}</Descricao>
             </div>
-            <Valor>{valor.toFixed(2)}</Valor>
+            <Valor color={tipo === "inflow" ? "#03AC00" : "#C70000"}>{valor.toFixed(2)}</Valor>
         </Registro>
     );
 }
-export default function Registros() {
-    const res = [
-        {
-            date: '29/07',
-            descrption: 'Almoço',
-            value: 30.00
-        },
-        {
-            date: '30/07',
-            descrption: 'Lanche',
-            value: 20.00
-        },
-        {
-            date: '31/07',
-            descrption: 'Pizza',
-            value: 50.00
-        },
-    ];
-    let soma = 0;
-    for (let i = 0; i < res.length; i++) {
-        soma += res[i].value;
-    }
 
+export default function Registros({ registers }) {
+    let soma = 0;
+    for (let i = 0; i < registers.length; i++) {
+        if (registers[i].type === "inflow") {
+            soma += registers[i].value;
+        } else {
+            soma -= registers[i].value;
+        }
+    }
     return (
         <Conteiner>
             <Registers>
-                {res.map((item, index)=> <RegistroUnico key={index} data={item.date} descricao={item.descrption} valor={item.value} />)}
+                {registers.map((item, index) => <RegistroUnico key={index} data={item.date} descricao={item.description} valor={item.value} tipo={item.type} />)}
             </Registers>
-            <Saldo><p>SALDO:</p><span>{soma.toFixed(2)}</span></Saldo>
+            <Saldo color={soma >= 0 ? "#03AC00" : "#C70000"}>
+                <p>SALDO:</p><span>{Math.abs(soma).toFixed(2)}</span>
+            </Saldo>
         </Conteiner>
     );
 }
@@ -80,7 +66,7 @@ const Descricao = styled.span`
     word-break: break-word;
 `;
 const Valor = styled.div`
-    color: #03AC00;
+    color: ${props => props.color};
     margin-left: 7px;
 `;
 
@@ -100,7 +86,7 @@ const Saldo = styled.div`
         font-weight: 400;
         font-size: 17px;
         line-height: 20px;
-        color: #03AC00;
+        color: ${props => props.color};
     }
 `;
 
