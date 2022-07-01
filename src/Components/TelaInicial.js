@@ -7,7 +7,7 @@ import TokenContext from "../Contexts/TokenContext";
 
 export default function TelaInicial() {
     const navigate = useNavigate();
-    const { token } = useContext(TokenContext);
+    const { token, setToken } = useContext(TokenContext);
     const [name, setName] = useState('');
     const [registers, setRegisters] = useState([]);
 
@@ -35,7 +35,7 @@ export default function TelaInicial() {
         <Conteiner>
             <Top>
                 <h2>Olá, {name}</h2>
-                <Link to="/">
+                <Link to="/" onClick={() => setToken('')}>
                     <ion-icon name="exit-outline"></ion-icon>
                 </Link>
             </Top>
