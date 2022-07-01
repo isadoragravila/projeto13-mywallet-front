@@ -3,16 +3,18 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useContext } from 'react';
 import axios from 'axios';
 import TokenContext from "../Contexts/TokenContext";
+import { ThreeDots } from  'react-loader-spinner';
 
 export default function TelaEntrar() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const { setToken } = useContext(TokenContext);
 
     function fazerLogin(event) {
         event.preventDefault();
-
+        setLoading(true);
         const body = { email, password };
         const promise = axios.post("http://localhost:5000/signin", body);
         promise.then(response => {
@@ -21,6 +23,7 @@ export default function TelaEntrar() {
         });
         promise.catch(err => {
             alert(err.response.data);
+            setLoading(false);
         });
     }
     //recolocar required nos inputs depois
@@ -28,9 +31,11 @@ export default function TelaEntrar() {
         <Conteiner>
             <h1>My Wallet</h1>
             <Form onSubmit={fazerLogin}>
-                <Input type="email" placeholder="E-mail" value={email} onChange={(e) => setEmail(e.target.value)} />
-                <Input type="password" placeholder="Senha" value={password} onChange={(e) => setPassword(e.target.value)} />
-                <Button type="submit">Entrar</Button>
+                <Input type="email" disabled={loading} color={loading ? "#AFAFAF" : "#000000"} placeholder="E-mail" value={email} onChange={(e) => setEmail(e.target.value)} />
+                <Input type="password" disabled={loading} color={loading ? "#AFAFAF" : "#000000"} placeholder="Senha" value={password} onChange={(e) => setPassword(e.target.value)} />
+                <Button type="submit" disabled={loading} opacity={loading ? 0.7 : 1}>
+                    {loading ? <ThreeDots color={"#ffffff"} width={60} /> : "Entrar"}
+                </Button>
             </Form>
             <Link to="/cadastro">
                 <Cadastro>
@@ -90,11 +95,11 @@ const Input = styled.input`
     font-weight: 400;
     font-size: 20px;
     text-indent: 10px;
-    color: #000000;
+    color: ${props => props.color};
     background-color: #FFFFFF;
 
     ::placeholder {
-        color: #000000;
+        color: ${props => props.color};
     }
 `;
 
@@ -112,4 +117,5 @@ const Button = styled.button`
     display: flex;
     align-items: center;
     justify-content: center;
+    opacity: ${props => props.opacity};
 `;

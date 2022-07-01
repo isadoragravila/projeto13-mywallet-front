@@ -3,16 +3,18 @@ import { useNavigate } from "react-router-dom";
 import { useState, useContext } from 'react';
 import axios from 'axios';
 import TokenContext from "../Contexts/TokenContext";
+import { ThreeDots } from 'react-loader-spinner';
 
 export default function Saida() {
     const [value, setValue] = useState('');
     const [description, setDescription] = useState('');
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const { token } = useContext(TokenContext);
 
     function salvarSaida(event) {
         event.preventDefault();
-
+        setLoading(true);
         if (!token) {
             navigate("/");
         } else {
@@ -28,6 +30,7 @@ export default function Saida() {
             });
             promise.catch(err => {
                 alert(err.response.data);
+                setLoading(false);
             });
         }
     }
@@ -36,9 +39,11 @@ export default function Saida() {
         <Conteiner>
             <h2>Nova Saída</h2>
             <Form onSubmit={salvarSaida}>
-                <Input type="number" required placeholder="Valor" value={value} onChange={(e) => setValue(e.target.value)} />
-                <Input type="text" required placeholder="Descrição" value={description} onChange={(e) => setDescription(e.target.value)} />
-                <Button type="submit">Salvar Saída</Button>
+                <Input type="number" disabled={loading} color={loading ? "#AFAFAF" : "#000000"} placeholder="Valor" value={value} onChange={(e) => setValue(e.target.value)} />
+                <Input type="text" disabled={loading} color={loading ? "#AFAFAF" : "#000000"} placeholder="Descrição" value={description} onChange={(e) => setDescription(e.target.value)} />
+                <Button type="submit" disabled={loading} opacity={loading ? 0.7 : 1}>
+                    {loading ? <ThreeDots color={"#ffffff"} width={60} /> : "Salvar Saída"}
+                </Button>
             </Form>
         </Conteiner>
     );
@@ -79,11 +84,11 @@ const Input = styled.input`
     font-weight: 400;
     font-size: 20px;
     text-indent: 10px;
-    color: #000000;
+    color: ${props => props.color};
     background-color: #FFFFFF;
 
     ::placeholder {
-        color: #000000;
+        color: ${props => props.color};
     }
 `;
 
@@ -101,4 +106,5 @@ const Button = styled.button`
     display: flex;
     align-items: center;
     justify-content: center;
+    opacity: ${props => props.opacity};
 `;
