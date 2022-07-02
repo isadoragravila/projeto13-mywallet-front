@@ -31,7 +31,7 @@ export default function TelaInicial() {
         }
     }, []);
 
-    function fazerLogout () {
+    function fazerLogout() {
         const config = {
             headers: {
                 "Authorization": `Bearer ${token}`
@@ -56,7 +56,7 @@ export default function TelaInicial() {
             </Top>
             <Registers>
                 {registers.length > 0 ?
-                    <Registros registers={registers} />
+                    <Registros registers={registers} setName={setName} setRegisters={setRegisters} />
                     :
                     <Text><h3>Não há registros de entrada ou saída</h3></Text>
                 }

@@ -1,18 +1,61 @@
+import { useContext } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
+import TokenContext from "../Contexts/TokenContext";
 
-function RegistroUnico({ data, descricao, valor, tipo }) {
+function RegistroUnico({ id, data, descricao, valor, tipo, setName, setRegisters }) {
+
+    const { token } = useContext(TokenContext);
+
+    function deletarRegistro() {
+        const confirm = window.confirm("Você tem certeza que deseja excluir esse registro?");
+        if (confirm === true) {
+            const config = {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            };
+            const promise = axios.delete(`http://localhost:5000/registers/${id}`, config);
+            promise.then(() => {
+                getRegistros();
+            });
+            promise.catch(err => {
+                alert(err.response.data);
+            });
+        }
+    }
+
+    function getRegistros() {
+        const config = {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        };
+        const promise = axios.get("http://localhost:5000/registers", config);
+        promise.then(response => {
+            setName(response.data.name);
+            setRegisters(response.data.registers);
+        });
+        promise.catch(err => {
+            alert(err.response.data);
+        });
+    }
+
     return (
         <Registro>
             <div>
                 <Data>{data}</Data>
                 <Descricao>{descricao}</Descricao>
             </div>
-            <Valor color={tipo === "inflow" ? "#03AC00" : "#C70000"}>{valor.toFixed(2)}</Valor>
+            <div>
+                <Valor color={tipo === "inflow" ? "#03AC00" : "#C70000"}>{valor.toFixed(2)}</Valor>
+                <Deleta onClick={deletarRegistro}>x</Deleta>
+            </div>
         </Registro>
     );
 }
 
-export default function Registros({ registers }) {
+export default function Registros({ registers, setName, setRegisters }) {
     let soma = 0;
     for (let i = 0; i < registers.length; i++) {
         if (registers[i].type === "inflow") {
@@ -24,7 +67,7 @@ export default function Registros({ registers }) {
     return (
         <Conteiner>
             <Registers>
-                {registers.map((item, index) => <RegistroUnico key={index} data={item.date} descricao={item.description} valor={item.value} tipo={item.type} />)}
+                {registers.map((item, index) => <RegistroUnico key={index} id={item._id} data={item.date} descricao={item.description} valor={item.value} tipo={item.type} setName={setName} setRegisters={setRegisters} />)}
             </Registers>
             <Saldo color={soma >= 0 ? "#03AC00" : "#C70000"}>
                 <p>SALDO:</p><span>{Math.abs(soma).toFixed(2)}</span>
@@ -65,8 +108,9 @@ const Descricao = styled.span`
     color: #000000;
     word-break: break-word;
 `;
-const Valor = styled.div`
+const Valor = styled.span`
     color: ${props => props.color};
+    margin-right: 10px;
     margin-left: 7px;
 `;
 
@@ -88,5 +132,13 @@ const Saldo = styled.div`
         line-height: 20px;
         color: ${props => props.color};
     }
+`;
+
+const Deleta = styled.span`
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: #c6c6c6;
+    cursor: pointer;
 `;
 
