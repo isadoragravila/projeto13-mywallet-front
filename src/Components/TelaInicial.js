@@ -31,11 +31,26 @@ export default function TelaInicial() {
         }
     }, []);
 
+    function fazerLogout () {
+        const config = {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        };
+        const promise = axios.delete("http://localhost:5000/signout", config);
+        promise.then(() => {
+            setToken('');
+        });
+        promise.catch(err => {
+            alert(err.response.data);
+        });
+    }
+
     return (
         <Conteiner>
             <Top>
                 <h2>Olá, {name}</h2>
-                <Link to="/" onClick={() => setToken('')}>
+                <Link to="/" onClick={fazerLogout}>
                     <ion-icon name="exit-outline"></ion-icon>
                 </Link>
             </Top>
