@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useContext } from 'react';
 import axios from 'axios';
 import TokenContext from "../Contexts/TokenContext";
-import { ThreeDots } from  'react-loader-spinner';
+import { ThreeDots } from 'react-loader-spinner';
 
 export default function TelaEntrar() {
     const [email, setEmail] = useState('');
@@ -26,7 +26,7 @@ export default function TelaEntrar() {
             setLoading(false);
         });
     }
-    //recolocar required nos inputs depois
+
     return (
         <Conteiner>
             <h1>My Wallet</h1>

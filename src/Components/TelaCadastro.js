@@ -15,7 +15,6 @@ export default function TelaCadastro() {
     function fazerCadastro(event) {
         event.preventDefault();
         setLoading(true);
-        //verificação do campo confirmar senha
         if (password !== checkPassword) {
             alert("Senhas diferentes. Insira a senha novamente");
             return;
@@ -31,7 +30,7 @@ export default function TelaCadastro() {
             setLoading(false);
         });
     }
-    //recolocar required nos inputs depois
+
     return (
         <Conteiner>
             <h1>My Wallet</h1>
