@@ -1,10 +1,11 @@
 import { useContext } from 'react';
+import { useNavigate } from "react-router-dom";
 import styled from 'styled-components';
 import axios from 'axios';
 import TokenContext from "../Contexts/TokenContext";
 
 function RegistroUnico({ id, data, descricao, valor, tipo, setName, setRegisters }) {
-
+    const navigate = useNavigate();
     const { token } = useContext(TokenContext);
 
     function deletarRegistro() {
@@ -23,6 +24,10 @@ function RegistroUnico({ id, data, descricao, valor, tipo, setName, setRegisters
                 alert(err.response.data);
             });
         }
+    }
+
+    function editarRegistro() {
+        navigate(`/editar/${id}`);
     }
 
     function getRegistros() {
@@ -45,7 +50,7 @@ function RegistroUnico({ id, data, descricao, valor, tipo, setName, setRegisters
         <Registro>
             <div>
                 <Data>{data}</Data>
-                <Descricao>{descricao}</Descricao>
+                <Descricao onClick={editarRegistro}>{descricao}</Descricao>
             </div>
             <div>
                 <Valor color={tipo === "inflow" ? "#03AC00" : "#C70000"}>{valor.toFixed(2)}</Valor>
@@ -107,6 +112,7 @@ const Data = styled.span`
 const Descricao = styled.span`
     color: #000000;
     word-break: break-word;
+    cursor: pointer;
 `;
 const Valor = styled.span`
     color: ${props => props.color};
