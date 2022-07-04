@@ -5,7 +5,8 @@ import TelaCadastro from "./TelaCadastro";
 import TelaInicial from "./TelaInicial";
 import Entrada from "./Entrada";
 import Saida from "./Saida";
-import EditarRegistro from "./EditarRegistro"
+import EditarEntrada from "./EditarEntrada";
+import EditarSaida from "./EditarSaida";
 import { useState } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import TokenContext from "../Contexts/TokenContext";
@@ -22,7 +23,8 @@ export default function App() {
                     <Route path="/inicio" element={<TelaInicial />} />
                     <Route path="/entrada" element={<Entrada />} />
                     <Route path="/saida" element={<Saida />} />
-                    <Route path="/editar/:idRegistro" element={<EditarRegistro />} />
+                    <Route path="/entrada/:idRegistro" element={<EditarEntrada />} />
+                    <Route path="/saida/:idRegistro" element={<EditarSaida />} />
                 </Routes>
             </BrowserRouter>
         </TokenContext.Provider>

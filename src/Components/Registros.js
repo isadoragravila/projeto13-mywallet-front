@@ -27,7 +27,11 @@ function RegistroUnico({ id, data, descricao, valor, tipo, setName, setRegisters
     }
 
     function editarRegistro() {
-        navigate(`/editar/${id}`);
+        if (tipo === "inflow") {
+            navigate(`/entrada/${id}`);
+        } else {
+            navigate(`/saida/${id}`);
+        }
     }
 
     function getRegistros() {

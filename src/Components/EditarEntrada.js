@@ -38,12 +38,12 @@ export default function EditarRegistro() {
 
     return (
         <Conteiner>
-            <h2>Atualizar Registro</h2>
+            <h2>Editar Entrada</h2>
             <Form onSubmit={atualizarRegistro}>
                 <Input type="number" disabled={loading} color={loading ? "#AFAFAF" : "#000000"} placeholder="Valor" value={value} onChange={(e) => setValue(e.target.value)} />
                 <Input type="text" disabled={loading} color={loading ? "#AFAFAF" : "#000000"} placeholder="Descrição" value={description} onChange={(e) => setDescription(e.target.value)} />
                 <Button type="submit" disabled={loading} opacity={loading ? 0.7 : 1}>
-                    {loading ? <ThreeDots color={"#ffffff"} width={60} /> : "Atualizar"}
+                    {loading ? <ThreeDots color={"#ffffff"} width={60} /> : "Atualizar entrada"}
                 </Button>
             </Form>
         </Conteiner>
