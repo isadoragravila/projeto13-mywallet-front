@@ -16,7 +16,7 @@ export default function TelaEntrar() {
         event.preventDefault();
         setLoading(true);
         const body = { email, password };
-        const promise = axios.post("http://localhost:5000/signin", body);
+        const promise = axios.post("https://back-my-wallet-projeto.herokuapp.com/signin", body);
         promise.then(response => {
             setToken(response.data.token);
             navigate("/inicio");

@@ -20,7 +20,7 @@ export default function TelaInicial() {
                     "Authorization": `Bearer ${token}`
                 }
             };
-            const promise = axios.get("http://localhost:5000/registers", config);
+            const promise = axios.get("https://back-my-wallet-projeto.herokuapp.com/registers", config);
             promise.then(response => {
                 setName(response.data.name);
                 setRegisters(response.data.registers);
@@ -37,7 +37,7 @@ export default function TelaInicial() {
                 "Authorization": `Bearer ${token}`
             }
         };
-        const promise = axios.delete("http://localhost:5000/signout", config);
+        const promise = axios.delete("https://back-my-wallet-projeto.herokuapp.com/signout", config);
         promise.then(() => {
             setToken('');
         });

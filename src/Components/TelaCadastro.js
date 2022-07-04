@@ -22,7 +22,7 @@ export default function TelaCadastro() {
         }
 
         const body = { name, email, password };
-        const promise = axios.post("http://localhost:5000/signup", body);
+        const promise = axios.post("https://back-my-wallet-projeto.herokuapp.com/signup", body);
         promise.then(() => {
             navigate("/");
         });

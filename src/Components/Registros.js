@@ -15,7 +15,7 @@ function RegistroUnico({ id, data, descricao, valor, tipo, setName, setRegisters
                     "Authorization": `Bearer ${token}`
                 }
             };
-            const promise = axios.delete(`http://localhost:5000/registers/${id}`, config);
+            const promise = axios.delete(`https://back-my-wallet-projeto.herokuapp.com/registers/${id}`, config);
             promise.then(() => {
                 getRegistros();
             });
@@ -31,7 +31,7 @@ function RegistroUnico({ id, data, descricao, valor, tipo, setName, setRegisters
                 "Authorization": `Bearer ${token}`
             }
         };
-        const promise = axios.get("http://localhost:5000/registers", config);
+        const promise = axios.get("https://back-my-wallet-projeto.herokuapp.com/registers", config);
         promise.then(response => {
             setName(response.data.name);
             setRegisters(response.data.registers);
